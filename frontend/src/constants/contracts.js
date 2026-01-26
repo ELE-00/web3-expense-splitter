@@ -1,0 +1,4 @@
+//contracts.js
+
+export const EXPENSE_SPLITTER_ADDRESS =
+  "0x15Bc8d7f34CeA9C3160693529c2051d4323a9A9c";

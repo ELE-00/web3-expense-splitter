@@ -15,6 +15,7 @@ contract ExpenseSplitter {
     address[] public members; //addresses of memebers in group
 
     mapping(address => bool) public isMember;
+    mapping(address => int256) public balances;
 
     struct Expense {
       address payer;
@@ -56,6 +57,18 @@ contract ExpenseSplitter {
             })
         );
 
+        uint share = _amount / members.length;
+
+        for(uint i = 0; i < members.length; i++) {
+          address member = members[i];
+
+          if(member == msg.sender) {
+            balances[member] += int256(_amount - share); 
+          } else {
+            balances[member] -= int256(share);
+          }
+        }
+
         uint expenseId = expense.length - 1;
         emit ExpenseAdded(expenseId, msg.sender, _amount, _description);
     }
@@ -65,7 +78,12 @@ contract ExpenseSplitter {
         require(isMember[msg.sender], "Only members can perform this action");
 
         Expense storage exp = expense[expenseId];
-        exp.settled = true;
+
+        if(exp.settled == true) {
+          return;
+        }else {
+          exp.settled = true;
+        }
 
         emit ExpenseSettled(expenseId);
     }
@@ -115,6 +133,34 @@ contract ExpenseSplitter {
     }
 
 
+    //Get member array
+    function getMembers() public view returns(address[] memory) {
+      return members;
+    }
+
+    //Get expenses array
+    function getExpenses() public view returns(Expense[] memory) {
+      return expense;
+    }
+
+    //Get balance array
+    function getBalance(address user) public view returns(int256) {
+      return balances[user];
+    }
+
+    function getAllBalances()
+        public
+        view
+        returns (address[] memory, int256[] memory)
+    {
+        int256[] memory memberBalances = new int256[](members.length);
+
+        for (uint i = 0; i < members.length; i++) {
+            memberBalances[i] = balances[members[i]];
+        }
+
+        return (members, memberBalances);
+    }
 }
 
 
