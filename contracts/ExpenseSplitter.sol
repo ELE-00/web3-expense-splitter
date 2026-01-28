@@ -11,6 +11,7 @@ contract ExpenseSplitter {
     event ExpenseSettled(uint indexed expenseId);
 
 
+    string public name;
     address public owner; //adress of user calling contract
     address[] public members; //addresses of memebers in group
 
@@ -29,10 +30,11 @@ contract ExpenseSplitter {
 
 
   //2. Constructor
-    constructor() {
-        owner = msg.sender;
-        members.push(msg.sender);
-        isMember[msg.sender] = true;
+    constructor(string memory _name, address _owner) {
+        owner = _owner;
+        members.push(_owner);
+        isMember[_owner] = true;
+        name = _name;
     }
 
   //3. Modifiers

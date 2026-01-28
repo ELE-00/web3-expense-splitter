@@ -1,0 +1,33 @@
+
+.SidebarContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    background-color: rgb(13, 5, 32);
+    
+}
+
+.header{
+    padding-left: 20px;
+
+}
+
+
+
+.GRPbtn button{
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.4em 1em;
+  margin-bottom: 20px;
+  font-size: 1em;
+  font-family: inherit;
+  background-color: #5208cb;
+  cursor: pointer;
+  transition: border-color 0.25s;
+  
+}
+
+.GRPbtn button:hover {
+  border-color: #6200ff;
+}

@@ -1,0 +1,17 @@
+
+
+.DashboardWrapper{
+    display: flex;
+    height: 100vh;
+    
+}
+
+.SidebarWrapper{
+    height: 100vh;
+    width: 20vw;
+}
+
+.DashWrapper{
+    padding: 20px;
+
+}

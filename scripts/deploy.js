@@ -2,11 +2,11 @@ import hre from "hardhat";
 import "dotenv/config";
 
 async function main() {
-  const ExpenseSplitter = await hre.ethers.getContractFactory("ExpenseSplitter");
-  const expenseSplitter = await ExpenseSplitter.deploy();
-  await expenseSplitter.deployed();
+  const Factory = await hre.ethers.getContractFactory("ExpenseSplitterFactory");
+  const factory = await Factory.deploy();
+  await factory.deployed();
 
-  console.log("ExpenseSplitter deployed to:", expenseSplitter.address);
+  console.log("ExpenseSplitterFactory deployed to:", factory.address);
 }
 
 main().catch((error) => {
