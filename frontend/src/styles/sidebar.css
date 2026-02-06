@@ -4,7 +4,8 @@
     flex-direction: column;
     align-items: center;
     height: 100%;
-    background-color: rgb(13, 5, 32);
+    background: linear-gradient(90deg, #000000, #131519);
+    border-radius: 15px;
     
 }
 
@@ -22,7 +23,7 @@
   margin-bottom: 20px;
   font-size: 1em;
   font-family: inherit;
-  background-color: #5208cb;
+  background: linear-gradient(45deg, #2A1E52, #4305B4);
   cursor: pointer;
   transition: border-color 0.25s;
   
@@ -30,4 +31,59 @@
 
 .GRPbtn button:hover {
   border-color: #6200ff;
+}
+
+
+.SBcontentContainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 90%;
+
+}
+
+.SBTopSection{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+
+
+}
+
+.SBFooterSection button{
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.4em 1em;
+  margin-bottom: 20px;
+  font-size: 1em;
+  font-family: inherit;
+  background: linear-gradient(45deg, #2A1E52, #4305B4);
+  cursor: pointer;
+  transition: border-color 0.25s;
+  
+}
+
+.SBFooterSection button:hover {
+  border-color: #6200ff;
+}
+
+
+
+
+.SBFooterAccountInfo{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.footerHeaderText{
+  margin: 0;
+  font-size: 0.8rem
+}
+
+.footerText{
+  margin: 0;
 }

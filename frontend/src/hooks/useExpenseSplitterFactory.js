@@ -45,17 +45,33 @@ export const useExpenseSplitterFactory = () => {
 
 
 
-    // Create contract
+    // Create contract - returns new group address
     const createGroup = useCallback(async (name) => {
         setLoading(true);
         setError(null);
 
         try {
             const tx = await contract.createGroup(name);
-            await tx.wait();
+            const receipt = await tx.wait();
+
+            // Parse ContractCreated event to get new group address
+            const event = receipt.logs
+                .map(log => {
+                    try {
+                        return contract.interface.parseLog(log);
+                    } catch {
+                        return null;
+                    }
+                })
+                .find(parsed => parsed?.name === "ContractCreated");
+
+            const newGroupAddress = event?.args?._address;
+
             await getGroups();
+            return newGroupAddress;
         } catch (err) {
             setError(err.message);
+            return null;
         } finally {
             setLoading(false);
         }

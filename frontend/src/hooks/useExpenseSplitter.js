@@ -1,5 +1,5 @@
 //useExpenseSplitter.js
-import { useState } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { ethers } from "ethers";
 import ExpenseSplitterABI from "../constants/ExpenseSplitterABI.json";
 import { useWallet } from "../context/WalletContext";
@@ -12,6 +12,7 @@ export const useExpenseSplitter = (address) => {
     const { signer} = useWallet();
 
     //States
+    const [groupName, setGroupName] = useState(null);
     const [members, setMembers] = useState([]);
     const [expenses, setExpenses] = useState([]);
     const [balances, setBalances] = useState([]);
@@ -20,28 +21,41 @@ export const useExpenseSplitter = (address) => {
 
 
 // 1. Create a Contract instance
-    if(!signer) return {
-        members: [],
-        expenses: [],
-        balances: [],
-        loading: false,
-        error: null,
-        getMembers: () => {},
-        getExpenses: () => {},
-        getBalances: () => {},
-        addMember: () => {},
-        removeMember: () => {},
-        removeSelf: () => {},
-        addExpense: () => {},
-        settleExpense: () => {}
-    };
-
-    const contract = new ethers.Contract(address, ExpenseSplitterABI, signer)
+    const contract = useMemo(() => {
+        if (!signer || !address) return null;
+        return new ethers.Contract(
+        address,
+        ExpenseSplitterABI,
+        signer
+        );
+    }, [address, signer]);
 
 
-// 2. Expose read functions (uses signer)
+
+// 2. Expose read functions (uses signer)~
+
+    
+    const getGroupName = useCallback(async () => {
+        if(!contract) return;
+
+        setLoading(true);
+        setError(null);
+        try {
+            const groupName = await contract.name();
+            setGroupName(groupName);
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    }, [contract]);
+
+
+
     // Get members
-    async function getMembers() {
+    const getMembers = useCallback(async () => {
+        if(!contract) return;
+
         setLoading(true);
         setError(null);
         try {
@@ -52,10 +66,13 @@ export const useExpenseSplitter = (address) => {
         } finally {
             setLoading(false);
         }
-    }
+    }, [contract]);
+
 
     // Get expenses
-    async function getExpenses() {
+    const getExpenses  = useCallback(async () => {
+        if(!contract) return;
+
         setLoading(true);
         setError(null);
         try {
@@ -66,10 +83,13 @@ export const useExpenseSplitter = (address) => {
         } finally {
             setLoading(false);
         }
-    }
+    }, [contract]);
+
 
     // Get balances
-    async function getBalances() {
+    const getBalances = useCallback(async () => {
+        if(!contract) return;
+
         setLoading(true);
         setError(null);
         try {
@@ -85,13 +105,13 @@ export const useExpenseSplitter = (address) => {
         } finally {
             setLoading(false);
         }
-    }
+    }, [contract]);
 
 
 
 // 3. Expose write functions
     // Add members
-    async function addMember(memberAddress) {
+    const addMember = useCallback(async (memberAddress) => {
         setLoading(true);
         setError(null);
         try {
@@ -103,10 +123,10 @@ export const useExpenseSplitter = (address) => {
         } finally {
             setLoading(false);
         }
-    }
+    }, [contract, getMembers]);
 
     // Remove member
-    async function removeMember(memberId) {
+    const removeMember = useCallback(async (memberId) => {
         setLoading(true);
         setError(null);
         try {
@@ -118,10 +138,10 @@ export const useExpenseSplitter = (address) => {
         } finally {
             setLoading(false);
         }
-    }
+    }, [contract, getMembers]);
 
     // Remove self
-    async function removeSelf(memberId) {
+    const removeSelf = useCallback(async (memberId) => {
         setLoading(true);
         setError(null);
         try {
@@ -133,10 +153,10 @@ export const useExpenseSplitter = (address) => {
         } finally {
             setLoading(false);
         }
-    }
+    }, [contract, getMembers]);
 
     // Add expenses
-    async function addExpense(amount, description) {
+    const addExpense = useCallback(async (amount, description) => {
         setLoading(true);
         setError(null);
         try {
@@ -149,40 +169,29 @@ export const useExpenseSplitter = (address) => {
         } finally {
             setLoading(false);
         }
-    }
+    }, [contract, getExpenses, getBalances]);
 
-    // Settle expense
-    async function settleExpense(expenseId) {
-        setLoading(true);
-        setError(null);
-        try {
-            const tx = await contract.settleExpense(expenseId);
-            await tx.wait();
-            await getExpenses();
-            await getBalances();
-        } catch (err) {
-            setError(err.message);
-        } finally {
-            setLoading(false);
-        }
-    }
+
+    
 
 
 
     return {
+        contract,
+        groupName,
         members,
         expenses,
         balances,
         loading,
         error,
+        getGroupName,
         getMembers,
         getExpenses,
         getBalances,
         addMember,
         removeMember,
         removeSelf,
-        addExpense,
-        settleExpense
+        addExpense
     }
 
 } 
