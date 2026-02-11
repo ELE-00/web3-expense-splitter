@@ -10,23 +10,104 @@
     padding: 15px;
 }
 
+.GOWrapper p{
+    margin: 0;
+}
+
 .GOContainer{
     padding-left: 20px;
     padding-right: 20px;
     border: 1px solid #7732f7;
     border-radius: 15px;
+
+
+
 }
+
+.GOHeaderWrapper{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+
+.GOHeaderContainer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+
+    /* border: 1px solid red; */
+}
+
+.GOHeaderContainer h3{
+    margin: 0;
+}
+
+.BBMemberInfoContainer{
+    margin-bottom: 20px;
+}
+
+
 
 .DashHeader{
     font-size: 1.4rem;
     font-weight: 400;
 }
 
+.GOBalanceContainer{
+  display: flex;
+  justify-content: space-between;
+  height: auto;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 50px;
+  justify-content: center;
+
+}
+
 .GOBalance{
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 10px;
+
 }
+
+
+.GOBalanceValue{
+    font-size: 2.5rem;
+}
+
+
+.GOBalanceNegativeValue{
+    font-size: 2.5rem;
+}
+
+.GOBalancePositiveValue{
+    font-size: 2.5rem;
+}
+
+
+.EURValue{
+    display: flex;
+    align-items: baseline;
+    gap: 10px
+}
+
+.EURValueNegative{
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    color: #ff3c3c;
+}
+
+.EURValuePositive{
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    color: #34ff7b;
+}
+
 
 .ETHValue{
     color: rgb(165, 165, 165);

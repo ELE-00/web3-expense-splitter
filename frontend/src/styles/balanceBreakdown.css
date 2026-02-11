@@ -56,6 +56,24 @@
   border-color: #6200ff;
 }
 
+
+.BBHeaderContainer button{
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.4em 1em;
+  margin-bottom: 20px;
+  font-size: 1em;
+  font-family: inherit;
+  background: linear-gradient(45deg, #1e523a, #05b40b);
+  cursor: pointer;
+  transition: border-color 0.25s;
+  
+}
+
+.BBHeaderContainer button:hover {
+  border-color: #6200ff;
+}
+
 .addAccountIcon{
     height: 40px;
     width: 40px;
@@ -124,4 +142,103 @@
 
 .positiveValue{
     color: #34ff7b;
+}
+
+
+
+/******* Settle Balance Dialog *******/
+
+.settleBalanceDialog{
+    background-color: #000000;
+    border-color: #6200ff;
+    border-radius: 8px;
+
+}
+
+.SBDialogWrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.SBContentContainer{
+    display: flex;
+    flex-direction: column;
+
+}
+
+
+
+
+.SBFooterBtn button{
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.4em 1em;
+  margin-bottom: 20px;
+  font-size: 1em;
+  font-family: inherit;
+  background: linear-gradient(45deg, #2A1E52, #4305B4);
+  cursor: pointer;
+  transition: border-color 0.25s;
+  
+}
+
+
+/******* Settle Card component *******/
+
+.SCWrapper{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    min-width: 30vw;
+
+    border-top: 1px solid grey;
+    border-bottom: 1px solid grey;
+}
+
+
+.SCLeftSection{
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    height: auto;
+    width: 30%;
+    padding-right: 20px;
+
+}
+
+.SCMidSection{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    width: 50%;
+
+}
+
+
+
+.SCRightSection{
+    display: flex;
+    align-items: center;
+
+
+}
+
+.SCRightSection button{
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.4em 1em;
+  margin-bottom: 20px;
+  font-size: 1em;
+  font-family: inherit;
+  background: linear-gradient(45deg, #1e523a, #05b40b);
+  cursor: pointer;
+  transition: border-color 0.25s;
+  
+}
+
+.payBtn{
+    margin: 0;
+    padding: 0;
 }

@@ -1,42 +1,39 @@
 //BalanceBreakdown.jsx
 import React, { useState } from "react";
 import '../styles/balanceBreakdown.css'
-import { getGroupMembers, setMemberName} from "../utils/groupMembers";
-import addAccountIcon from "../assets/addAccountIcon.png";
+import { getGroupMembers} from "../utils/groupMembers";
 import deleteBtn from "../assets/deleteBtn.png";
-import AddMembersDialog from "./AddMembersDialog";
+
+import SettleBalanceDialog from "./SettleBalanceDialog";
 import { ethers } from "ethers";
 
-const BalanceBreakdown = ( {balances, selectedGroupAddress, account, addMember, getMembers, getBalances, removeMember, removeSelf, weiPerCent} ) => {
+const BalanceBreakdown = ({
+    balances, 
+    selectedGroupAddress, 
+    account,  
+    weiPerCent,
+    settleDebtWithEth,
+    removeMember,
+    removeSelf,
+    getMembers,
+    getBalances,
+} ) => {
 
-    const [openDialog, setOpenDialog] = useState(false);
+
+    const [openSBDialog, setSBOpenDialog] = useState(false);
+
     const memberNames = getGroupMembers(selectedGroupAddress);
 
-    console.log(memberNames)
 
-    const handleDialogOpen = () => {
-        setOpenDialog(true);
+    const handleSBDialogOpen = () => {
+        setSBOpenDialog(true);
     }
 
-    const handleDialogClose = () => {
-        setOpenDialog(false);
+    const handleSBDialogClose = () => {
+        setSBOpenDialog(false);
     }
 
 
-      //handle adding members
-    async function addMemberToGroup(name, userAddress, groupAddress) {
-        try{
-            await addMember(userAddress)
-            setMemberName(groupAddress, userAddress, name)
-            await getMembers();
-            await getBalances();
-            handleDialogClose();
-
-        }catch (err) {
-            console.log(err, "Failed to add member")
-        }
-    }
-    
 
       //handle removing members
     async function removeMemberFromGroup(userId, memberAddress) {
@@ -55,13 +52,12 @@ const BalanceBreakdown = ( {balances, selectedGroupAddress, account, addMember, 
     }
 
 
-
     return (
         <div className="BBWrapper"> 
         
             <div className="BBHeaderContainer">
                 <h3 className="DashHeader"> Balances </h3> 
-                <img className="addAccountIcon" src={addAccountIcon} alt="addAccountIcon.png" onClick={handleDialogOpen}></img>
+                <button onClick={() => handleSBDialogOpen()}>Pay</button>
             </div>
 
             <div className="BBContentContainer">
@@ -73,7 +69,7 @@ const BalanceBreakdown = ( {balances, selectedGroupAddress, account, addMember, 
                     const balanceEth = (item.balance !== null && weiPerCent)
                         ? parseFloat(ethers.formatEther(weiPerCent * BigInt(Math.abs(item.balance)))).toFixed(4)
                         : "0"; 
-                    
+
                     return(
                         <div className="userContainer">
 
@@ -99,14 +95,18 @@ const BalanceBreakdown = ( {balances, selectedGroupAddress, account, addMember, 
             </div>
 
 
-            {openDialog && (
-                <dialog open className="addMembersDialog">
-                    <AddMembersDialog 
-                    handleDialogClose={handleDialogClose}
-                    addMemberToGroup={addMemberToGroup}
-                    selectedGroupAddress={selectedGroupAddress}      
+            {openSBDialog && (
+                <dialog open className="settleBalanceDialog">
+                    <SettleBalanceDialog
+                    handleSBDialogClose={handleSBDialogClose}
+                    account={account}
+                    balances={balances}
+                    memberNames={memberNames}
+                    weiPerCent={weiPerCent}
+                    settleDebtWithEth={settleDebtWithEth}
+                    selectedGroupAddress={selectedGroupAddress}
                     >
-                    </AddMembersDialog>
+                    </SettleBalanceDialog>
                 </dialog>
             )}
 

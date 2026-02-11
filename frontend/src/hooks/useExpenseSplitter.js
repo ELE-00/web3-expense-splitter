@@ -171,9 +171,20 @@ export const useExpenseSplitter = (address) => {
         }
     }, [contract, getExpenses, getBalances]);
 
-
-    
-
+    // Settle debt by sending ETH to creditor
+    const settleDebtWithEth = useCallback(async (creditorAddress, weiAmount) => {
+        setLoading(true);
+        setError(null);
+        try {
+            const tx = await contract.settleDebtWithEth(creditorAddress, { value: weiAmount });
+            await tx.wait();
+            await getBalances();
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    }, [contract, getBalances]);
 
 
     return {
@@ -191,7 +202,8 @@ export const useExpenseSplitter = (address) => {
         addMember,
         removeMember,
         removeSelf,
-        addExpense
+        addExpense,
+        settleDebtWithEth
     }
 
 } 

@@ -14,6 +14,7 @@ const Sidebar = ({setSelectedGroupAddress, selectedGroupAddress, account, handle
     const memberNames = selectedGroupAddress ? getGroupMembers(selectedGroupAddress) : {};
     const displayName = memberNames[account?.toLowerCase()] || null;
    
+    console.log(displayName)
 
     useEffect(() => {
 

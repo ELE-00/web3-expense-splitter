@@ -32,7 +32,8 @@ const Dashboard = () =>  {
         addMember,
         removeMember,
         removeSelf,
-        addExpense
+        addExpense,
+        settleDebtWithEth
     } = useExpenseSplitter(selectedGroupAddress);
 
     
@@ -58,19 +59,11 @@ const Dashboard = () =>  {
     }, [getGroupName, getMembers, getExpenses, getBalances, contract])
 
 
-
-
-
-
-
-
     //Disconnect
     const handleDisconnect = () => {
         disconnectWallet();
         navigate('/login');
     }
-
-
 
 
     return (
@@ -91,6 +84,7 @@ const Dashboard = () =>  {
                     expenses={expenses} 
                     account={account}
                     weiPerCent={weiPerCent}
+                    selectedGroupAddress={selectedGroupAddress}
                     ></GroupOverview>
                     
                     <BalanceBreakdown
@@ -103,6 +97,7 @@ const Dashboard = () =>  {
                     removeMember={removeMember}
                     removeSelf={removeSelf}
                     weiPerCent={weiPerCent}
+                    settleDebtWithEth={settleDebtWithEth}
                     ></BalanceBreakdown>
                 </div>
                 <div className="DashRightSection">

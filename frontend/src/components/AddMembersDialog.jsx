@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import '../styles/balanceBreakdown.css'
 
 
-const AddMembersDialog = ({addMemberToGroup, selectedGroupAddress, handleDialogClose}) => {
+const AddMembersDialog = ({addMemberToGroup, selectedGroupAddress, handleAMDialogClose}) => {
 
     const [userName, setUserName] = useState("")
     const [userAddress, setUserAddress] = useState("")
@@ -35,7 +35,7 @@ const AddMembersDialog = ({addMemberToGroup, selectedGroupAddress, handleDialogC
 
         <div className="AMFooterBtn">
             <button className="dialogCreateBtn" onClick={() => addMemberToGroup(userName, userAddress, selectedGroupAddress)}>Add</button>
-            <button className="dialogCloseBtn" onClick={() => handleDialogClose()}>Close</button>
+            <button className="dialogCloseBtn" onClick={() => handleAMDialogClose()}>Close</button>
         </div>
 
 
