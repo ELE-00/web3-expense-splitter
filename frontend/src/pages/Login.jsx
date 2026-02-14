@@ -3,6 +3,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useWallet } from "../context/WalletContext";
+import '../styles/login.css'
 
 
 const Login = () =>  {
@@ -18,10 +19,17 @@ const Login = () =>  {
     }, [walletConnected, navigate])
 
     return (
-        <div>
-            <button onClick={connectWallet}>
-                {walletConnected ? "Connected" : "Connect"}
-            </button>
+        <div className="loginWrapper">
+
+            <div className="loginHeader">
+                <h3>ExpenseSplittr</h3>
+            </div>
+
+            <div className="connectBtnContainer">
+                <button className="connectBtn" onClick={connectWallet}>
+                    {walletConnected ? "Connected" : "Connect"}
+                </button>
+            </div>
         </div>
     )
 }

@@ -14,7 +14,12 @@
 
 }
 
-
+.seperator{
+  height: 2vh;
+  width: 100%;
+  border-bottom: 1px solid #363636;
+  margin-bottom: 20px;
+}
 
 .GRPbtn button{
   border-radius: 8px;
@@ -86,4 +91,15 @@
 
 .footerText{
   margin: 0;
+}
+
+.groupList h4{
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.groupList{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

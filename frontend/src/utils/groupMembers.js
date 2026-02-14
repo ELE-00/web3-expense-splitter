@@ -13,7 +13,7 @@ export function setMemberName(groupAddress, memberAddress, name) {
   }
 
   // Store with lowercase address for consistent lookups
-  data[groupAddress][memberAddress] = name;
+  data[groupAddress][memberAddress.toLowerCase()] = name;
 
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 }

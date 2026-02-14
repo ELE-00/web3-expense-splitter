@@ -25,7 +25,7 @@ const SettleBalanceDialog = ({account, balances, memberNames, weiPerCent, settle
         //I owe => find someone who is owed     
         const creditor = balances.find(item => item.balance > 0 && item.address.toLowerCase() !== myAddress.toLowerCase())
         if(!creditor) return null        
-        const creditorName = memberNames[creditor.address] || creditor.address.slice(0,8) + "...";
+        const creditorName = memberNames[creditor.address.toLowerCase()] || creditor.address.slice(0,8) + "...";
 
 
         //Values formatting

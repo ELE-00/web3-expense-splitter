@@ -63,7 +63,7 @@ const BalanceBreakdown = ({
             <div className="BBContentContainer">
                 {balances.map((item, i) => {
 
-                    const name = memberNames[item.address] || item.address.slice(0,8) + "...";
+                    const name = memberNames[item.address.toLowerCase()] || item.address.slice(0,8) + "...";
                     const amountEur = (Number(item.balance) / 100).toFixed(2);
 
                     const balanceEth = (item.balance !== null && weiPerCent)

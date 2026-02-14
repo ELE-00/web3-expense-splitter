@@ -1,5 +1,4 @@
 //contracts.js
 
-
 export const EXPENSE_SPLITTER_FACTORY_ADDRESS =
-  "0x8023ef9445939a0229b35D49dF36af1b2A8e1e3e";
+  import.meta.env.VITE_FACTORY_ADDRESS;

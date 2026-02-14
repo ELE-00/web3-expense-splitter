@@ -1,0 +1,30 @@
+
+.loginWrapper{
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    align-items: center;
+    justify-content: center;
+
+    background-image: 
+    url("src/assets/background.jpg");
+    background-size: 100% 100%;
+}
+
+
+.loginHeader h3 {
+    font-size: 3rem;
+}
+
+.connectBtn{
+  border-radius: 8px;
+  border: 1px solid #d1d1d1;
+  padding: 0.4em 1em;
+  margin-bottom: 20px;
+  font-size: 1.5em;
+  font-family: inherit;
+  background: linear-gradient(45deg, #2A1E52, #4305B4);
+  cursor: pointer;
+  transition: border-color 0.25s;
+  
+}

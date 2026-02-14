@@ -2,8 +2,9 @@
 pragma solidity ^0.8.28;
 
 import "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
+import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
-contract ExpenseSplitter {
+contract ExpenseSplitter is ReentrancyGuard {
 
   //1. State
 
@@ -204,7 +205,7 @@ contract ExpenseSplitter {
 
     // Settle your debt with a creditor by paying ETH
     // Debtor sends ETH, creditor receives it, balances are updated
-    function settleDebtWithEth(address creditor) public payable {
+    function settleDebtWithEth(address creditor) public payable nonReentrant {
         require(isMember[msg.sender], "Only members can perform this action");
         require(isMember[creditor], "Creditor must be a member");
         require(balances[msg.sender] < 0, "You have no debt");
@@ -235,12 +236,14 @@ contract ExpenseSplitter {
 
         // Transfer ETH to creditor
         uint256 weiToTransfer = centsPaid * weiPerCent;
-        payable(creditor).transfer(weiToTransfer);
+        (bool success, ) = payable(creditor).call{value: weiToTransfer}("");
+        require(success, "ETH transfer to creditor failed");
 
         // Refund excess ETH to sender
         uint256 refund = msg.value - weiToTransfer;
         if (refund > 0) {
-            payable(msg.sender).transfer(refund);
+            (bool refundSuccess, ) = payable(msg.sender).call{value: refund}("");
+            require(refundSuccess, "ETH refund failed");
         }
 
         emit DebtSettled(msg.sender, creditor, centsPaid, weiToTransfer);

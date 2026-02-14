@@ -14,7 +14,7 @@ const Sidebar = ({setSelectedGroupAddress, selectedGroupAddress, account, handle
     const memberNames = selectedGroupAddress ? getGroupMembers(selectedGroupAddress) : {};
     const displayName = memberNames[account?.toLowerCase()] || null;
    
-    console.log(displayName)
+    console.log("account:", account, "memberNames:", memberNames, "displayName:", displayName)
 
     useEffect(() => {
 
@@ -57,7 +57,10 @@ const Sidebar = ({setSelectedGroupAddress, selectedGroupAddress, account, handle
                         <button onClick={handleDialogOpen}>Create Group</button>
                     </div>
 
+                    <div className="seperator"></div>
+
                     <div className="groupList">
+                    <h4>Groups:</h4>
                     {groups.length == 0  
                         ? "Create a group to get started" 
                         : groups.map((group, i) => (
