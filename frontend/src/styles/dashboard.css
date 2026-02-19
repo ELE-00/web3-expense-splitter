@@ -6,7 +6,7 @@
     width: 100vw;
 
     background-image: 
-    url("src/assets/background.jpg");
+    url("../assets/background.jpg");
     background-size: 100% 25%; 
     background-repeat:no-repeat;
     background-position: 50%;
