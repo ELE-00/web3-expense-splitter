@@ -1,26 +1,29 @@
 //GroupOverview.jsx
-import React, { useState } from "react";
-import { useMemo } from "react";
+import { useState, useMemo } from "react";
 import { ethers } from "ethers";
 import '../styles/groupOverview.css'
 import addAccountIcon from "../assets/addAccountIcon.png";
 
 import {setMemberName} from "../utils/groupMembers";
+import { useToast } from "../context/ToastContext";
+import { parseError } from "../utils/parseError";
 import AddMembersDialog from "./AddMembersDialog";
 
 const GroupOverview = ({
-    groupName, 
-    members, 
-    balances, 
-    expenses, 
-    account, 
-    weiPerCent, 
-    addMember, 
-    getMembers, 
-    getBalances, 
+    groupName,
+    members,
+    balances,
+    expenses,
+    account,
+    weiPerCent,
+    submitting,
+    addMember,
+    getMembers,
+    getBalances,
     selectedGroupAddress
 }) => {
 
+    const { showToast } = useToast();
     const [openAMDialog, setAMOpenDialog] = useState(false);
 
     const handleAMDialogOpen = () => {
@@ -40,9 +43,7 @@ const GroupOverview = ({
             await getBalances();
             handleAMDialogClose();
 
-        }catch (err) {
-            console.log(err, "Failed to add member")
-        }
+        }catch (err) { showToast(parseError(err)); }
     }
     
 
@@ -89,7 +90,7 @@ const GroupOverview = ({
                     
                     <div className="GOHeaderContainer">
                         <h3 className="DashHeader">{groupName}</h3>
-                        <img className="addAccountIcon" src={addAccountIcon} alt="addAccountIcon.png" onClick={handleAMDialogOpen}></img>
+                        <img className="icons" src={addAccountIcon} alt="addAccountIcon.png" onClick={submitting ? undefined : handleAMDialogOpen} style={submitting ? {opacity: 0.4, cursor: 'not-allowed'} : {}}></img>
                     </div>
 
                     <div className="BBMemberInfoContainer">
@@ -144,10 +145,11 @@ const GroupOverview = ({
 
             {openAMDialog && (
                 <dialog open className="addMembersDialog">
-                    <AddMembersDialog 
+                    <AddMembersDialog
                     handleAMDialogClose={handleAMDialogClose}
                     addMemberToGroup={addMemberToGroup}
-                    selectedGroupAddress={selectedGroupAddress}      
+                    selectedGroupAddress={selectedGroupAddress}
+                    submitting={submitting}
                     >
                     </AddMembersDialog>
                 </dialog>

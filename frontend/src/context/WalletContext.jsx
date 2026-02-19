@@ -45,11 +45,6 @@ export const WalletProvider = ({ children }) => {
             //Check network
             await checkNetwork();
 
-            console.log("Wallet Connected");
-            console.log("Account:", userAccount);
-            console.log("Provider:", web3Provider);
-            console.log("Signer:", web3Signer);
-
         } catch(err) {
             setErrorMessage(err.message);
         }
@@ -61,7 +56,6 @@ export const WalletProvider = ({ children }) => {
         setSigner(null);
         setwalletConnected(false);
         setErrorMessage(null);
-        console.log("Wallet disconnected");
     };
 
     //Network Switch
@@ -96,11 +90,16 @@ export const WalletProvider = ({ children }) => {
             setchainId(newChainId);
         };
 
-        const handleAccountsChanged = (accounts) => {
+        const handleAccountsChanged = async (accounts) => {
             if (accounts.length === 0) {
                 disconnectWallet();
             } else {
+                // Recreate provider + signer - switching accounts invalidates the old signer
+                const web3Provider = new ethers.BrowserProvider(window.ethereum);
+                const web3Signer = await web3Provider.getSigner();
                 setAccount(accounts[0]);
+                setProvider(web3Provider);
+                setSigner(web3Signer);
             }
         };
 

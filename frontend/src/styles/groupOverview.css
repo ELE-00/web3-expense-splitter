@@ -19,9 +19,6 @@
     padding-right: 20px;
     border: 1px solid #7732f7;
     border-radius: 15px;
-
-
-
 }
 
 .GOHeaderWrapper{
@@ -37,7 +34,6 @@
     align-items: center;
     margin-top: 20px;
 
-    /* border: 1px solid red; */
 }
 
 .GOHeaderContainer h3{
@@ -53,6 +49,11 @@
 .DashHeader{
     font-size: 1.4rem;
     font-weight: 400;
+}
+
+.icons{
+    height: 40px;
+    width: 40px;
 }
 
 .GOBalanceContainer{
@@ -113,3 +114,120 @@
     color: rgb(165, 165, 165);
     font-size: 0.9rem;
 }
+
+
+.addMembersDialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    border: 1px solid #6200ff;
+    border-radius: 8px;
+}
+
+/******* add member Dialog *******/
+
+.AMDialogWrapper{
+    display: flex;
+    flex-direction: column;
+
+    width: 30vw;
+    background-color: #131519;
+    border: 1px solid rgb(44, 43, 43);
+
+    border-radius: 15px;
+    padding: 15px;
+
+    gap: 20px;
+
+}
+
+.AMFormContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+
+}
+
+
+.AMFormContainer input{
+    border: none;
+    border-radius: 8px;
+    height: 20px;
+    width: 80%;
+    padding: 10px;
+    background-color: #20232a;
+
+}
+
+.AMForm{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px; 
+    width: 30vw;
+}
+
+
+
+.AMAddressError {
+    color: #ff3c3c;
+    font-size: 0.8rem;
+    margin: 0;
+    text-align: center;
+}
+
+.AMFooterBtn{
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+
+.AMFooterBtn button{
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.4em 1em;
+  margin-bottom: 20px;
+  font-size: 1em;
+  font-family: inherit;
+  background: linear-gradient(45deg, #2A1E52, #4305B4);
+  cursor: pointer;
+  transition: border-color 0.25s;
+  
+}
+
+.NGFooterBtn button:hover {
+  border-color: #6200ff;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 1023px) {
+    .GOWrapper {
+        width: 45vw;
+    }
+}
+
+@media (max-width: 767px) {
+    .GOWrapper {
+        width: 90vw;
+    }
+
+    .GOBalanceValue,
+    .GOBalanceNegativeValue,
+    .GOBalancePositiveValue {
+        font-size: 1.8rem;
+    }
+
+    .addMembersDialog {
+        width: 90vw;
+    }
+
+    .AMDialogWrapper,
+    .AMForm {
+        width: 100%;
+    }
+}
+

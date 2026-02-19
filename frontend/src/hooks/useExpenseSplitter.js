@@ -13,10 +13,12 @@ export const useExpenseSplitter = (address) => {
 
     //States
     const [groupName, setGroupName] = useState(null);
+    const [owner, setOwner] = useState(null);
     const [members, setMembers] = useState([]);
     const [expenses, setExpenses] = useState([]);
     const [balances, setBalances] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState(null);
 
 
@@ -32,7 +34,7 @@ export const useExpenseSplitter = (address) => {
 
 
 
-// 2. Expose read functions (uses signer)~
+// 2. Read functions
 
     
     const getGroupName = useCallback(async () => {
@@ -47,6 +49,16 @@ export const useExpenseSplitter = (address) => {
             setError(err.message);
         } finally {
             setLoading(false);
+        }
+    }, [contract]);
+
+    const getOwner = useCallback(async () => {
+        if (!contract) return;
+        try {
+            const ownerAddress = await contract.owner();
+            setOwner(ownerAddress);
+        } catch (err) {
+            setError(err.message);
         }
     }, [contract]);
 
@@ -112,7 +124,7 @@ export const useExpenseSplitter = (address) => {
 // 3. Expose write functions
     // Add members
     const addMember = useCallback(async (memberAddress) => {
-        setLoading(true);
+        setSubmitting(true);
         setError(null);
         try {
             const tx = await contract.addMember(memberAddress);
@@ -121,13 +133,13 @@ export const useExpenseSplitter = (address) => {
         } catch (err) {
             setError(err.message);
         } finally {
-            setLoading(false);
+            setSubmitting(false);
         }
     }, [contract, getMembers]);
 
     // Remove member
     const removeMember = useCallback(async (memberId) => {
-        setLoading(true);
+        setSubmitting(true);
         setError(null);
         try {
             const tx = await contract.removeMember(memberId);
@@ -136,13 +148,13 @@ export const useExpenseSplitter = (address) => {
         } catch (err) {
             setError(err.message);
         } finally {
-            setLoading(false);
+            setSubmitting(false);
         }
     }, [contract, getMembers]);
 
     // Remove self
     const removeSelf = useCallback(async (memberId) => {
-        setLoading(true);
+        setSubmitting(true);
         setError(null);
         try {
             const tx = await contract.removeSelf(memberId);
@@ -151,13 +163,13 @@ export const useExpenseSplitter = (address) => {
         } catch (err) {
             setError(err.message);
         } finally {
-            setLoading(false);
+            setSubmitting(false);
         }
     }, [contract, getMembers]);
 
     // Add expenses
     const addExpense = useCallback(async (amount, description) => {
-        setLoading(true);
+        setSubmitting(true);
         setError(null);
         try {
             const tx = await contract.addExpense(amount, description);
@@ -167,13 +179,13 @@ export const useExpenseSplitter = (address) => {
         } catch (err) {
             setError(err.message);
         } finally {
-            setLoading(false);
+            setSubmitting(false);
         }
     }, [contract, getExpenses, getBalances]);
 
     // Settle debt by sending ETH to creditor
     const settleDebtWithEth = useCallback(async (creditorAddress, weiAmount) => {
-        setLoading(true);
+        setSubmitting(true);
         setError(null);
         try {
             const tx = await contract.settleDebtWithEth(creditorAddress, { value: weiAmount });
@@ -182,7 +194,7 @@ export const useExpenseSplitter = (address) => {
         } catch (err) {
             setError(err.message);
         } finally {
-            setLoading(false);
+            setSubmitting(false);
         }
     }, [contract, getBalances]);
 
@@ -190,12 +202,15 @@ export const useExpenseSplitter = (address) => {
     return {
         contract,
         groupName,
+        owner,
         members,
         expenses,
         balances,
         loading,
+        submitting,
         error,
         getGroupName,
+        getOwner,
         getMembers,
         getExpenses,
         getBalances,

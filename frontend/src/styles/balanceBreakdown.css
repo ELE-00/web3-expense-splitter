@@ -18,43 +18,8 @@
     justify-content: space-between;
     align-items: center;
 
-    /* border: 1px solid red; */
 }
 
-.addMemberBtn button{
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.4em 1em;
-  margin-bottom: 20px;
-  font-size: 1em;
-  font-family: inherit;
-  background: linear-gradient(45deg, #2A1E52, #4305B4);
-  cursor: pointer;
-  transition: border-color 0.25s;
-  
-}
-
-.addMemberBtn button:hover {
-  border-color: #6200ff;
-}
-
-
-.AMFooterBtn button{
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.4em 1em;
-  margin-bottom: 20px;
-  font-size: 1em;
-  font-family: inherit;
-  background: linear-gradient(45deg, #2A1E52, #4305B4);
-  cursor: pointer;
-  transition: border-color 0.25s;
-  
-}
-
-.AMFooterBtn button:hover {
-  border-color: #6200ff;
-}
 
 
 .BBHeaderContainer button{
@@ -72,50 +37,6 @@
 
 .BBHeaderContainer button:hover {
   border-color: #6200ff;
-}
-
-.addAccountIcon{
-    height: 40px;
-    width: 40px;
-}
-
-.AMDialogWrapper{
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.AMFooterBtn{
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-}
-
-.AMForm{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px; 
-    width: 30vw;
-}
-
-.AMFormContainer input{
-    border: none;
-    border-radius: 8px;
-    height: 20px;
-    width: 80%;
-    padding: 10px;
-    background-color: #20232a;
-    
-
-}
-
-
-.addMembersDialog{
-    background-color: #000000;
-    border-color: #6200ff;
-    border-radius: 8px;
-
 }
 
 .userContainer{
@@ -148,26 +69,40 @@
 
 /******* Settle Balance Dialog *******/
 
-.settleBalanceDialog{
-    background-color: #000000;
-    border-color: #6200ff;
-    border-radius: 8px;
 
+.settleBalanceDialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    border: 1px solid #6200ff;
+    border-radius: 8px;
 }
+
 
 .SBDialogWrapper{
     display: flex;
     flex-direction: column;
+    align-items: center;
+
+    width: 30vw;
+    background-color: #131519;
+    border: 1px solid rgb(44, 43, 43);
+
+    border-radius: 15px;
+    padding: 15px;
+
     gap: 20px;
+
 }
 
-.SBContentContainer{
+
+.SBFooterBtn{
     display: flex;
-    flex-direction: column;
-
+    gap: 20px;
+    justify-content: center;
 }
-
-
 
 
 .SBFooterBtn button{
@@ -181,6 +116,10 @@
   cursor: pointer;
   transition: border-color 0.25s;
   
+}
+
+.NGFooterBtn button:hover {
+  border-color: #6200ff;
 }
 
 
@@ -241,4 +180,30 @@
 .payBtn{
     margin: 0;
     padding: 0;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 1023px) {
+    .BBWrapper {
+        width: 45vw;
+    }
+}
+
+@media (max-width: 767px) {
+    .BBWrapper {
+        width: 90vw;
+    }
+
+    .settleBalanceDialog {
+        width: 90vw;
+    }
+
+    .SBDialogWrapper {
+        width: 100%;
+    }
+
+    .SCWrapper {
+        min-width: unset;
+        width: 100%;
+    }
 }

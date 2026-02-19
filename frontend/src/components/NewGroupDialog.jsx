@@ -10,9 +10,10 @@ const NewGroupDialog = ({handleDialogClose, handleCreateGroup}) => {
 
     return (
 
-        <div className="newGroupDialogWrapper">
+        <div className="NGDialogWrapper">
 
             <div className="NGFormContainer">
+                 <p>Create group</p>
                 <form className="NGForm">
                     <input
                         type="text"

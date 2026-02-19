@@ -10,19 +10,21 @@
     background-size: 100% 25%; 
     background-repeat:no-repeat;
     background-position: 50%;
+
     
 }
 
 .SidebarWrapper{
     height: 100vh;
-    width: 20vw;
+    width: 15vw;
+    
 }
 
 .DashWrapper{
     display: flex;
-    width: 100%;
+    width: auto;
     padding: 20px;
-    /* border: 1px solid red; */
+    gap: 20px;
 }
 
 .DashLeftSection{
@@ -40,4 +42,106 @@
     height: 100%;
     width: 100%;
 
+}
+
+.noGroupSelected {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    color: rgb(165, 165, 165);
+}
+
+/* Content area beside the sidebar */
+.mainContent {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+    overflow-x: hidden;
+}
+
+/* Hamburger button - hidden on desktop */
+.mobileTopBar {
+    display: none;
+    padding: 10px 16px;
+    border-bottom: 1px solid rgb(44, 43, 43);
+}
+
+.menuBtn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+/* Dark backdrop when sidebar is open on mobile */
+.sidebarOverlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 99;
+}
+
+.sidebarOverlay.open {
+    display: block;
+}
+
+/* ---- Tablet (768px - 1023px) ---- */
+@media (max-width: 1023px) {
+
+    .SidebarWrapper {
+        width: 25vw;
+    }
+
+    .DashWrapper {
+        flex-direction: column;
+    }
+
+    .DashLeftSection {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .DashRightSection {
+        width: 100%;
+        height: auto;
+    }
+}
+
+/* ---- Mobile (< 768px) ---- */
+@media (max-width: 767px) {
+
+    .SidebarWrapper {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 75vw;
+        height: 100vh;
+        z-index: 100;
+        transition: left 0.3s ease;
+    }
+
+    .SidebarWrapper.open {
+        left: 0;
+    }
+
+    .mobileTopBar {
+        display: flex;
+        align-items: center;
+    }
+
+    .DashWrapper {
+        padding: 10px;
+    }
+
+    .DashLeftSection {
+        gap: 10px;
+    }
 }

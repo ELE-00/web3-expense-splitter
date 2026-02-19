@@ -1,9 +1,9 @@
 //AddExpenseDialog.jsx
-import React, {useState} from 'react';
+import { useState } from 'react';
 import '../styles/expenseList.css'
 
 
-const AddExpenseDialog = ({handleAddExpense, handleDialogClose}) => {
+const AddExpenseDialog = ({handleAddExpense, handleDialogClose, submitting}) => {
 
 
 const [expenseItem, setExpenseItem] = useState("")
@@ -11,11 +11,11 @@ const [value, setValue] = useState("")
 
     return (
 
-        <div className="AMDialogWrapper">
+        <div className="AEDialogWrapper">
 
-            <div className="AMFormContainer">
+            <div className="AEFormContainer">
                 <p>Add expense</p>
-                <form className="AMForm">
+                <form className="AEForm">
                     <input
                         type="text"
                         placeholder="Expense"
@@ -34,9 +34,9 @@ const [value, setValue] = useState("")
             </div>
 
 
-        <div className="AMFooterBtn">
-            <button className="dialogCreateBtn" onClick={() => handleAddExpense(value, expenseItem)}>Add</button>
-            <button className="dialogCloseBtn" onClick={() => handleDialogClose()}>Close</button>
+        <div className="AEFooterBtn">
+            <button className="dialogCreateBtn" onClick={() => handleAddExpense(value, expenseItem)} disabled={submitting}>{submitting ? "Adding..." : "Add"}</button>
+            <button className="dialogCloseBtn" onClick={() => handleDialogClose()} disabled={submitting}>Close</button>
         </div>
 
 

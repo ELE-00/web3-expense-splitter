@@ -1,16 +1,17 @@
 //ExpenseList.jsx
-import React, { useState } from "react";
+import { useState } from "react";
 import '../styles/expenseList.css'
 import addBtnIcon from "../assets/addBtn.png";
 import { ethers } from "ethers";
 
 
+import { useToast } from "../context/ToastContext";
+import { parseError } from "../utils/parseError";
 import AddExpenseDialog from "./AddExpenseDialog";
 
-const ExpenseList = ({expenses, addExpense, weiPerCent}) => {
+const ExpenseList = ({expenses, addExpense, weiPerCent, submitting}) => {
 
-    console.log(expenses)
-
+    const { showToast } = useToast();
     const [openDialog, setOpenDialog] = useState(false);
 
     const handleDialogOpen = () => {
@@ -27,9 +28,7 @@ const ExpenseList = ({expenses, addExpense, weiPerCent}) => {
             const valueCents = Math.round(value * 100);
             await addExpense(valueCents, description);
             handleDialogClose();
-        }catch(err) {
-            console.log(err, "Failed to add expense")
-        }
+        }catch (err) { showToast(parseError(err)); }
     }
 
 
@@ -39,7 +38,7 @@ const ExpenseList = ({expenses, addExpense, weiPerCent}) => {
 
             <div className="ELHeaderContainer">
                 <h3 className="DashHeader"> Expense list </h3> 
-                <img className="addAccountIcon" src={addBtnIcon} alt="addBtn.png" onClick={handleDialogOpen}></img>
+                <img className="icons" src={addBtnIcon} alt="addBtn.png" onClick={submitting ? undefined : handleDialogOpen} style={submitting ? {opacity: 0.4, cursor: 'not-allowed'} : {}}></img>
             </div>
 
             <div className="ELContentContainer">
@@ -47,7 +46,7 @@ const ExpenseList = ({expenses, addExpense, weiPerCent}) => {
                     const amountEur = (Number(item.amount) / 100).toFixed(2);
 
                     const balanceEth = (item.amount !== null && weiPerCent)
-                        ? parseFloat(ethers.formatEther(weiPerCent * BigInt(Math.abs(item.amount)))).toFixed(4)
+                        ? parseFloat(ethers.formatEther(weiPerCent * BigInt(Math.abs(Number(item.amount))))).toFixed(4)
                         : "0"; 
 
                     return(
@@ -74,9 +73,10 @@ const ExpenseList = ({expenses, addExpense, weiPerCent}) => {
 
         {openDialog && (
             <dialog open className="addMembersDialog">
-                <AddExpenseDialog 
+                <AddExpenseDialog
                 handleAddExpense={handleAddExpense}
-                handleDialogClose={handleDialogClose}   
+                handleDialogClose={handleDialogClose}
+                submitting={submitting}
                 >
                 </AddExpenseDialog>
             </dialog>

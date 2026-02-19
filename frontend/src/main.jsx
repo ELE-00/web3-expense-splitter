@@ -8,6 +8,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import { WalletProvider } from "./context/WalletContext";
+import { ToastProvider } from "./context/ToastContext";
+import "./styles/toast.css";
 
 
 const router = createBrowserRouter([
@@ -35,7 +37,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <WalletProvider>
-      <RouterProvider router = {router} />
+      <ToastProvider>
+        <RouterProvider router = {router} />
+      </ToastProvider>
     </WalletProvider>
   </React.StrictMode>
 );

@@ -2,16 +2,18 @@
 import { useState, useMemo, useCallback } from "react";
 import { ethers } from "ethers";
 import ExpenseSplitterFactoryABI from "../constants/ExpenseSplitterFactoryABI.json";
+import ExpenseSplitterABI from "../constants/ExpenseSplitterABI.json";
 import { useWallet } from "../context/WalletContext";
 import { EXPENSE_SPLITTER_FACTORY_ADDRESS } from "../constants/contracts";
 
 
 export const useExpenseSplitterFactory = () => {
 
-    const { signer} = useWallet();
+    const { signer, account } = useWallet();
 
     const [groups, setGroups] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState(null);
 
 
@@ -26,28 +28,41 @@ export const useExpenseSplitterFactory = () => {
     }, [signer]);
 
 
-    // Get contract
+    // Get groups where current account is a member
     const getGroups = useCallback(async () => {
-        if(!contract) return;
+        if (!contract || !account) return;
 
         setLoading(true);
         setError(null);
 
         try {
             const groupData = await contract.getGroups();
-            setGroups(groupData);
+
+            const membershipChecks = await Promise.all(
+                groupData.map(async (group) => {
+                    try {
+                        const groupContract = new ethers.Contract(group.contractAddress, ExpenseSplitterABI, signer);
+                        const isMember = await groupContract.isMember(account);
+                        return isMember ? group : null;
+                    } catch {
+                        return null;
+                    }
+                })
+            );
+
+            setGroups(membershipChecks.filter(Boolean));
         } catch (err) {
             setError(err.message);
         } finally {
             setLoading(false);
         }
-    }, [contract]);
+    }, [contract, account, signer]);
 
 
 
     // Create contract - returns new group address
     const createGroup = useCallback(async (name) => {
-        setLoading(true);
+        setSubmitting(true);
         setError(null);
 
         try {
@@ -73,7 +88,7 @@ export const useExpenseSplitterFactory = () => {
             setError(err.message);
             return null;
         } finally {
-            setLoading(false);
+            setSubmitting(false);
         }
     }, [contract, getGroups]);
 
@@ -82,6 +97,7 @@ export const useExpenseSplitterFactory = () => {
     return {
         groups,
         loading,
+        submitting,
         error,
         getGroups,
         createGroup

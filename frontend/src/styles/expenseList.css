@@ -18,5 +18,86 @@
     justify-content: space-between;
     align-items: center;
 
-    /* border: 1px solid red; */
 }
+
+
+.AEDialogWrapper{
+    display: flex;
+    flex-direction: column;
+
+    width: 30vw;
+    background-color: #131519;
+    border: 1px solid rgb(44, 43, 43);
+
+    border-radius: 15px;
+    padding: 15px;
+
+    gap: 20px;
+
+}
+
+.AEFormContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+
+}
+
+
+.AEFormContainer input{
+    border: none;
+    border-radius: 8px;
+    height: 20px;
+    width: 80%;
+    padding: 10px;
+    background-color: #20232a;
+
+}
+
+.AEForm{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px; 
+    width: 30vw;
+}
+
+
+
+.AEFooterBtn{
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+
+.AEFooterBtn button{
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.4em 1em;
+  margin-bottom: 20px;
+  font-size: 1em;
+  font-family: inherit;
+  background: linear-gradient(45deg, #2A1E52, #4305B4);
+  cursor: pointer;
+  transition: border-color 0.25s;
+  
+}
+
+.NGFooterBtn button:hover {
+  border-color: #6200ff;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 767px) {
+    .addMembersDialog {
+        width: 90vw;
+    }
+
+    .AEDialogWrapper,
+    .AEForm {
+        width: 100%;
+    }
+}
+

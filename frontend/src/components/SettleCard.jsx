@@ -1,17 +1,17 @@
-import React, {useState} from "react";
-
+import { useState } from "react";
+import { useToast } from "../context/ToastContext";
+import { parseError } from "../utils/parseError";
 
 const SettleCard = ({settlementInfo, settleDebtWithEth}) => {
 
+    const { showToast } = useToast();
     const [paying, setPaying] = useState(false);
 
     async function handlePay() {
         try {
             setPaying(true);
-            await settleDebtWithEth(settlementInfo.toAdress, settlementInfo.weiAmount);
-        } catch (err) {
-            console.log(err, "Failed to settle debt");
-        } finally {
+            await settleDebtWithEth(settlementInfo.toAddress, settlementInfo.weiAmount);
+        } catch (err) { showToast(parseError(err)); } finally {
             setPaying(false);
         }
     }

@@ -1,25 +1,31 @@
 //BalanceBreakdown.jsx
-import React, { useState } from "react";
+import { useState } from "react";
 import '../styles/balanceBreakdown.css'
 import { getGroupMembers} from "../utils/groupMembers";
 import deleteBtn from "../assets/deleteBtn.png";
 
 import SettleBalanceDialog from "./SettleBalanceDialog";
+import { useToast } from "../context/ToastContext";
+import { parseError } from "../utils/parseError";
 import { ethers } from "ethers";
 
 const BalanceBreakdown = ({
-    balances, 
-    selectedGroupAddress, 
-    account,  
+    balances,
+    selectedGroupAddress,
+    account,
+    owner,
     weiPerCent,
+    submitting,
     settleDebtWithEth,
     removeMember,
     removeSelf,
     getMembers,
     getBalances,
+    onSelfRemoved,
 } ) => {
 
 
+    const { showToast } = useToast();
     const [openSBDialog, setSBOpenDialog] = useState(false);
 
     const memberNames = getGroupMembers(selectedGroupAddress);
@@ -38,17 +44,15 @@ const BalanceBreakdown = ({
       //handle removing members
     async function removeMemberFromGroup(userId, memberAddress) {
         try {
-            // Check if removing self or another member
             if (memberAddress.toLowerCase() === account.toLowerCase()) {
                 await removeSelf(userId);
+                onSelfRemoved();
             } else {
                 await removeMember(userId);
+                await getMembers();
+                await getBalances();
             }
-            await getMembers();
-            await getBalances();
-        } catch (err) {
-            console.log(err, "Failed to remove member")
-        }
+        } catch (err) { showToast(parseError(err)); }
     }
 
 
@@ -57,7 +61,7 @@ const BalanceBreakdown = ({
         
             <div className="BBHeaderContainer">
                 <h3 className="DashHeader"> Balances </h3> 
-                <button onClick={() => handleSBDialogOpen()}>Pay</button>
+                <button onClick={() => handleSBDialogOpen()} disabled={submitting}>{submitting ? "Processing..." : "Pay"}</button>
             </div>
 
             <div className="BBContentContainer">
@@ -67,7 +71,7 @@ const BalanceBreakdown = ({
                     const amountEur = (Number(item.balance) / 100).toFixed(2);
 
                     const balanceEth = (item.balance !== null && weiPerCent)
-                        ? parseFloat(ethers.formatEther(weiPerCent * BigInt(Math.abs(item.balance)))).toFixed(4)
+                        ? parseFloat(ethers.formatEther(weiPerCent * BigInt(Math.abs(Number(item.balance))))).toFixed(4)
                         : "0"; 
 
                     return(
@@ -86,7 +90,26 @@ const BalanceBreakdown = ({
 
                                 <p className="ETHValue"> ( {balanceEth} ETH )</p>
 
-                                <img className="deleteBtnIcon" src={deleteBtn} alt="deleteBtn.png" onClick={() => removeMemberFromGroup(i, item.address)}></img>
+                                {(() => {
+                                    // Owner can remove others but not self. Members can only remove themselves.
+                                    const isOwner = account?.toLowerCase() === owner?.toLowerCase();
+                                    const isSelf = item.address.toLowerCase() === account?.toLowerCase();
+                                    const canDelete = isOwner ? !isSelf : isSelf;
+                                    const style = !canDelete
+                                        ? { visibility: 'hidden' }
+                                        : submitting
+                                            ? { opacity: 0.4, cursor: 'not-allowed' }
+                                            : {};
+                                    return (
+                                        <img
+                                            className="deleteBtnIcon"
+                                            src={deleteBtn}
+                                            alt="deleteBtn.png"
+                                            onClick={canDelete && !submitting ? () => removeMemberFromGroup(i, item.address) : undefined}
+                                            style={style}
+                                        />
+                                    );
+                                })()}
                             </div>
 
                         </div>

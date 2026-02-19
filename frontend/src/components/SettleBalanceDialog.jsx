@@ -1,10 +1,10 @@
-//addMembersDialog.jsx
-import React, {useMemo} from 'react';
+//SettleBalanceDialog.jsx
+import { useMemo } from 'react';
 import '../styles/balanceBreakdown.css'
 import SettleCard from './SettleCard';
 import { ethers } from "ethers";
 
-const SettleBalanceDialog = ({account, balances, memberNames, weiPerCent, settleDebtWithEth, selectedGroupAddress, handleSBDialogClose}) => {
+const SettleBalanceDialog = ({account, balances, memberNames, weiPerCent, settleDebtWithEth, handleSBDialogClose}) => {
 
 
     const myAddress = account
@@ -14,10 +14,10 @@ const SettleBalanceDialog = ({account, balances, memberNames, weiPerCent, settle
         const me = balances.find(item => item.address.toLowerCase() === myAddress.toLowerCase())
         if(!me) return null
 
-        //I am owed => no dialog
+        //I am owed => no debt to settle
         if(me.balance >= 0) return {
             creditorName: "",
-            toAdress: "",
+            toAddress: "",
             amountEur: 0,
             balanceEth: 0
         }
@@ -39,7 +39,7 @@ const SettleBalanceDialog = ({account, balances, memberNames, weiPerCent, settle
 
         return {
             creditorName: creditorName,
-            toAdress: creditor.address,
+            toAddress: creditor.address,
             amountEur: amountEur,
             balanceEth: balanceEth,
             weiAmount: weiAmount
