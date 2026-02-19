@@ -2,6 +2,9 @@
 
 A decentralized expense splitting application built on Ethereum. Create groups, track shared expenses in EUR, view real-time ETH equivalents via Chainlink price feeds, and settle debts by sending ETH directly to creditors.
 
+<img src=".\frontend\src\assets\appScreen.png" width="500" />
+
+
 ## Features
 
 - **MetaMask wallet authentication** with Sepolia network support
