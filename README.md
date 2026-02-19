@@ -4,6 +4,10 @@ A decentralized expense splitting application built on Ethereum. Create groups, 
 
 <img src=".\frontend\src\assets\appScreen.png" width="500" />
 
+[Live preview](https://web3-expense-splitter-seey-su6ch21bb-eles-projects-3336e2c1.vercel.app/)
+
+
+
 
 ## Features
 
